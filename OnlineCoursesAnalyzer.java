@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  */
 public class OnlineCoursesAnalyzer {
 
-    List<Course> courses=new ArrayList<>();
+    List<Course> courses = new ArrayList<>();
 
     public OnlineCoursesAnalyzer(String datasetPath) {
         BufferedReader br = null;
@@ -21,7 +21,7 @@ public class OnlineCoursesAnalyzer {
         try {
             br=new BufferedReader(new FileReader(datasetPath, StandardCharsets.UTF_8));
             br.readLine();
-            while ((line=br.readLine()) != null) {
+            while ((line = br.readLine()) != null) {
                 String[] info=line.split(",(?=([^\\\"]*\\\"[^\\\"]*\\\")*[^\\\"]*$)", -1);
                 Course course = new Course(info[0], info[1], new Date(info[2]), info[3], info[4], info[5],
                         Integer.parseInt(info[6]), Integer.parseInt(info[7]),
@@ -50,7 +50,7 @@ public class OnlineCoursesAnalyzer {
 
     //1
     public Map<String, Integer> getPtcpCountByInst() {
-        Map<String, Integer> ans=courses.stream()
+        Map<String, Integer> ans = courses.stream()
                 .collect(Collectors.groupingBy(Course::getInstitution,
                         Collectors.summingInt(Course::getParticipants)));
         return new TreeMap<>(ans);
@@ -58,7 +58,7 @@ public class OnlineCoursesAnalyzer {
 
     //2
     public Map<String, Integer> getPtcpCountByInstAndSubject() {
-        Map<String, Integer> ans=courses.stream().collect(Collectors.groupingBy(Course::q2,
+        Map<String, Integer> ans = courses.stream().collect(Collectors.groupingBy(Course::q2,
                 Collectors.summingInt(Course::getParticipants)));
         Map<String, Integer> answer = new TreeMap<>(ans);
         answer = answer.entrySet().stream().sorted((o1, o2) -> o2.getValue() - o1.getValue())
